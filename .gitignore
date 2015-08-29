@@ -31,3 +31,4 @@ vendor
 .idea/misc.xml
 ArchimedesShips.iws
 /MovingWorld/MovingWorld.iws
+src/main/resources/referenceassets/
