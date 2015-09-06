@@ -1,9 +1,10 @@
 package darkevilmac.archimedes.common.entity;
 
-import darkevilmac.archimedes.common.tileentity.TileEntityHelm;
 import darkevilmac.archimedes.common.object.ArchimedesObjects;
-import darkevilmac.movingworld.common.chunk.assembly.AssembleResult;
+import darkevilmac.archimedes.common.tileentity.TileEntityHelm;
 import darkevilmac.movingworld.common.chunk.LocatedBlock;
+import darkevilmac.movingworld.common.chunk.assembly.AssembleResult;
+import darkevilmac.movingworld.common.chunk.assembly.CanAssemble;
 import darkevilmac.movingworld.common.chunk.assembly.MovingWorldAssemblyInteractor;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
@@ -64,6 +65,16 @@ public class ShipAssemblyInteractor extends MovingWorldAssemblyInteractor {
             return tile instanceof TileEntityHelm;
         else
             return false;
+    }
+
+    @Override
+    public CanAssemble isBlockAllowed(World world, Block block, int x, int y, int z) {
+        CanAssemble canAssemble = super.isBlockAllowed(world, block, x, y, z);
+
+        if (block == ArchimedesObjects.blockStickyBuffer)
+            canAssemble.assembleThenCancel = true;
+
+        return canAssemble;
     }
 
     public int getBalloonCount() {

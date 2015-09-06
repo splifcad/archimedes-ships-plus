@@ -12,8 +12,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 public class TileEntityGaugeRenderer extends TileEntitySpecialRenderer {
-    public static final ResourceLocation GAUGE_TEXTURE_DEFAULT = new ResourceLocation("archimedes", "textures/blocks/gauge.png");
-    public static final ResourceLocation GAUGE_TEXTURE_AIRSHIP = new ResourceLocation("archimedes", "textures/blocks/gauge_ext.png");
+    public static final ResourceLocation GAUGE_TEXTURE_DEFAULT = new ResourceLocation("archimedesshipsplus", "textures/blocks/gauge.png");
+    public static final ResourceLocation GAUGE_TEXTURE_AIRSHIP = new ResourceLocation("archimedesshipsplus", "textures/blocks/gauge_ext.png");
 
     public void renderGauge(TileEntityGauge tileentity, double x, double y, double z, float partialticks) {
         RenderHelper.disableStandardItemLighting();

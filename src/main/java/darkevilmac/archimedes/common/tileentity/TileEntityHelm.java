@@ -30,10 +30,14 @@ public class TileEntityHelm extends TileMovingWorldMarkingBlock {
         sendAssembleResult(player, true);
     }
 
+    @Override
+    public void updateEntity() {
+        //System.out.println(submerge);
+    }
 
     @Override
     public boolean canUpdate() {
-        return false;
+        return true;
     }
 
     @Override

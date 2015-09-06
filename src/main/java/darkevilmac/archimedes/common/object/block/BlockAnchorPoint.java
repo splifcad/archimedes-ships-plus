@@ -17,12 +17,12 @@ public class BlockAnchorPoint extends BlockContainer {
     }
 
     @Override
-    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p6, float p7, float p8, float p9) {
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
         if (world != null && player != null && !world.isRemote) {
             if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z) instanceof TileEntityAnchorPoint) {
                 TileEntityAnchorPoint tile = (TileEntityAnchorPoint) world.getTileEntity(x, y, z);
                 if (tile.anchorPointInfo == null)
-                    return false;
+                    tile.setAnchorPointInfo(0, 0, 0, false);
                 if (player.isSneaking()) {
                     tile.anchorPointInfo.forShip = !tile.anchorPointInfo.forShip;
                     ArchimedesShipMod.instance.network.sendTo(new TranslatedChatMessage("TR:" + (tile.anchorPointInfo.forShip ? "common.tile.anchor.changeModeShip" : "common.tile.anchor.changeModeGround") + "~ "), (EntityPlayerMP) player);
@@ -30,7 +30,7 @@ public class BlockAnchorPoint extends BlockContainer {
                     if (tile.anchorPointInfo.forShip) {
                         if (player.getEntityData().getBoolean("SelectedShipData")) {
                             int[] selectedShipPos = player.getEntityData().getIntArray("SelectedShipAnchorPos");
-                            tile.anchorPointInfo.setInfo(selectedShipPos[0], selectedShipPos[1], selectedShipPos[2], tile.anchorPointInfo.forShip);
+                            tile.setAnchorPointInfo(selectedShipPos[0], selectedShipPos[1], selectedShipPos[2], tile.anchorPointInfo.forShip);
                             ArchimedesShipMod.instance.network.sendTo(new TranslatedChatMessage("TR:" + "common.tile.anchor.activateShip" + "~ X:" + selectedShipPos[0] + " Y:" + selectedShipPos[1] + " Z:" + selectedShipPos[2]), (EntityPlayerMP) player);
                         } else {
                             ArchimedesShipMod.instance.network.sendTo(new TranslatedChatMessage("TR:" + "common.tile.anchor.noGroundLink"), (EntityPlayerMP) player);

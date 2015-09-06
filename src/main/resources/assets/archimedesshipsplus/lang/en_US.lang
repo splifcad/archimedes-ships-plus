@@ -1,6 +1,7 @@
 #Archimedes' Ships language file en_US
 
 entity.ArchimedesShips.shipmod.name=Archimedes' Ships
+itemGroup.archimedesTab=Archimedes' Ships
 
 common.tile.anchor.activateGround=You have activated an anchor for use on the ground, activate any anchors for ships you want this anchor to be associated with.
 common.tile.anchor.activateShip=Linked ship anchor with ground anchor at
@@ -30,6 +31,7 @@ tile.archimedes.balloon.white.name=Air Balloon
 tile.archimedes.gauge.name=Measurement Gauges
 tile.archimedes.seat.name=Passenger Seat
 tile.archimedes.buffer.name=Shore Buffer
+tile.archimedes.stickyBuffer.name=Sticky Buffer
 tile.archimedes.engine.name=Steam Engine
 tile.archimedes.crate_wood.name=Wooden Crate
 tile.archimedes.anchorPoint.name=Anchor Point

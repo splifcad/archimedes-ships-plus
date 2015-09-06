@@ -8,8 +8,8 @@ import net.minecraftforge.client.model.IModelCustom;
 import org.lwjgl.opengl.GL11;
 
 public class TileEntityHelmRenderer extends TileEntitySpecialRenderer {
-    public static final ResourceLocation MODEL_HELM = new ResourceLocation("archimedes", "/model/shipHelm.obj");
-    public static final ResourceLocation TEXTURE_HELM = new ResourceLocation("archimedes", "/model/wood.png");
+    public static final ResourceLocation MODEL_HELM = new ResourceLocation("archimedesshipsplus", "/model/shipHelm.obj");
+    public static final ResourceLocation TEXTURE_HELM = new ResourceLocation("archimedesshipsplus", "/model/wood.png");
     private IModelCustom modelHelm;
 
     public TileEntityHelmRenderer() {

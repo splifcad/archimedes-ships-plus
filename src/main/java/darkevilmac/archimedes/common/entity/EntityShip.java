@@ -180,23 +180,17 @@ public class EntityShip extends EntityMovingWorld {
      * @return
      */
     public boolean alignToAnchor() {
-        for (int amountToIgnore = 0; amountToIgnore < 100; amountToIgnore++) {
-            if (capabilities.findClosestValidAnchor(16) != null) {
-                AnchorPointLocation anchorPointLocation = capabilities.findClosestValidAnchor(16);
-                ChunkPosition chunkAnchorPos = anchorPointLocation.shipAnchor.coords;
-                ChunkPosition worldAnchorPos = anchorPointLocation.worldAnchor.coords;
-                Vec3 worldPosForAnchor = Vec3.createVectorHelper(worldAnchorPos.chunkPosX, worldAnchorPos.chunkPosY, worldAnchorPos.chunkPosZ);
-                worldPosForAnchor = worldPosForAnchor.addVector(getMobileChunk().maxX() / 2, getMobileChunk().minY(), getMobileChunk().maxZ() / 2);
-                worldPosForAnchor = worldPosForAnchor.subtract(Vec3.createVectorHelper(chunkAnchorPos.chunkPosX, 0, chunkAnchorPos.chunkPosZ));
-                setPosition(worldPosForAnchor.xCoord, worldPosForAnchor.yCoord + 2, worldPosForAnchor.zCoord);
-            } else {
-                alignToGrid();
-                return false;
-            }
+        if (capabilities.findClosestValidAnchor(16) != null) {
+            AnchorPointLocation anchorPointLocation = capabilities.findClosestValidAnchor(16);
+            ChunkPosition chunkAnchorPos = anchorPointLocation.shipAnchor.coords;
+            ChunkPosition worldAnchorPos = anchorPointLocation.worldAnchor.coords;
+            Vec3 worldPosForAnchor = Vec3.createVectorHelper(worldAnchorPos.chunkPosX, worldAnchorPos.chunkPosY + 2, worldAnchorPos.chunkPosZ);
+            worldPosForAnchor = worldPosForAnchor.addVector(getMobileChunk().getCenterX(), getMobileChunk().minY(), getMobileChunk().getCenterZ());
+            worldPosForAnchor = Vec3.createVectorHelper(worldPosForAnchor.xCoord - chunkAnchorPos.chunkPosX, worldPosForAnchor.yCoord, worldPosForAnchor.zCoord - chunkAnchorPos.chunkPosZ);
+            setPosition(worldPosForAnchor.xCoord, worldPosForAnchor.yCoord, worldPosForAnchor.zCoord);
         }
 
         alignToGrid();
-
         return false;
     }
 
@@ -362,8 +356,8 @@ public class EntityShip extends EntityMovingWorld {
     public boolean disassemble(boolean overwrite) {
         if (worldObj.isRemote) return true;
 
+        alignToGrid();
         updateRiderPosition();
-
         ChunkDisassembler disassembler = getDisassembler();
         disassembler.overwrite = overwrite;
 
@@ -376,6 +370,7 @@ public class EntityShip extends EntityMovingWorld {
         }
 
         AssembleResult result = disassembler.doDisassemble(getNewAssemblyInteractor());
+
         if (result.getShipMarker() != null) {
             TileEntity te = result.getShipMarker().tileEntity;
             if (te instanceof TileEntityHelm) {

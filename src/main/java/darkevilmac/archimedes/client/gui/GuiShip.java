@@ -1,6 +1,8 @@
 package darkevilmac.archimedes.client.gui;
 
+import darkevilmac.archimedes.ArchimedesShipMod;
 import darkevilmac.archimedes.common.entity.EntityShip;
+import darkevilmac.archimedes.common.network.ClientChangeSubmerseMessage;
 import darkevilmac.movingworld.MovingWorld;
 import darkevilmac.movingworld.common.network.MovingWorldClientActionMessage;
 import net.minecraft.client.gui.GuiButton;
@@ -11,7 +13,7 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 public class GuiShip extends GuiContainer {
-    public static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("archimedes", "textures/gui/shipinv.png");
+    public static final ResourceLocation BACKGROUND_TEXTURE = new ResourceLocation("archimedesshipsplus", "textures/gui/shipinv.png");
 
     public final EntityShip ship;
     public final EntityPlayer player;
@@ -40,6 +42,8 @@ public class GuiShip extends GuiContainer {
 
         btnAlign = new GuiButton(2, guiLeft + 4, guiTop + 40, 100, 20, StatCollector.translateToLocal("gui.shipinv.align"));
         buttonList.add(btnAlign);
+
+        System.out.println(ship.canSubmerge());
 
         if (ship.canSubmerge()) {
             btnSubmersible = new GuiButtonSubmersible(3, guiLeft + xSize + 2, guiTop);
@@ -94,6 +98,12 @@ public class GuiShip extends GuiContainer {
             MovingWorld.instance.network.sendToServer(msg);
 
             ship.alignToGrid();
+        } else if (button == btnSubmersible) {
+            GuiButtonSubmersible subButton = (GuiButtonSubmersible) button;
+            ClientChangeSubmerseMessage msg = new ClientChangeSubmerseMessage(ship, !subButton.submerse);
+
+            subButton.submerse = !subButton.submerse;
+            ArchimedesShipMod.instance.network.sendToServer(msg);
         }
     }
 }

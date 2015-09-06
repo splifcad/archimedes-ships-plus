@@ -17,13 +17,15 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-1.7.12"
+version = "1.7.10-1.8"
 group = "darkevilmac.archimedesshipsplus" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "archimedesshipsplus"
 
 minecraft {
-    version = "1.7.10-10.13.4.1481-1.7.10"
+    version = "1.7.10-10.13.4.1492-1.7.10"
     runDir = "run"
+
+    replace '@AS+VER@', project.version
 }
 
 dependencies {
