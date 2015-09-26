@@ -43,8 +43,6 @@ public class GuiShip extends GuiContainer {
         btnAlign = new GuiButton(2, guiLeft + 4, guiTop + 40, 100, 20, StatCollector.translateToLocal("gui.shipinv.align"));
         buttonList.add(btnAlign);
 
-        System.out.println(ship.canSubmerge());
-
         if (ship.canSubmerge()) {
             btnSubmersible = new GuiButtonSubmersible(3, guiLeft + xSize + 2, guiTop);
             buttonList.add(btnSubmersible);
@@ -54,7 +52,7 @@ public class GuiShip extends GuiContainer {
 
     @Override
     public void updateScreen() {
-        super.updateScreen();
+        if (this.mc != null && this.mc.thePlayer != null) super.updateScreen();
 
         if (btnDisassemble == null || btnAlign == null) {
             return;
