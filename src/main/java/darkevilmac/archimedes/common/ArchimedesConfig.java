@@ -46,8 +46,8 @@ public class ArchimedesConfig {
 
     public ArchimedesConfig(Configuration configuration) {
         config = configuration;
-        balloonAlternatives = new HashSet<String
-        seats = new ArrayList<Block>();>();
+        balloonAlternatives = new HashSet<String>();
+        seats = new ArrayList<Block>();
 
         FMLCommonHandler.instance().bus().register(this); // For in game config reloads.
     }
@@ -72,7 +72,7 @@ public class ArchimedesConfig {
         flyBalloonRatio = (float) config.get("mobile_chunk", "airship_balloon_ratio", 0.4D, "The part of the total amount of objects that should be balloon objects in order to make an airship.").getDouble(0.4D);
         submersibleFillRatio = (float) config.get("mobile_chunk", "submersible_fill_ratio", 0.3D, "The part of the ship that needs to not be water fillable for it to be considered submersible.").getDouble(0.9D);
 
-        String[] seatNames = (config.get("settings", "seatnew String[]{s", "archimedesshipsplus:s, "end_portal_frame"}eat", "Blocks that are considered seats, (BlockSeat is hardcoded so this is just an example.)").getStringList());
+        String[] seatNames = (config.get("settings", "seat", new String[]{"archimedesshipsplus:seat", "end_portal_frame"}, "Blocks that are considered seats, (BlockSeat is hardcoded so this is just an example.)").getStringList());
 
         for (String seat : seatNames) {
             seats.add(Block.getBlockFromName(seat));
