@@ -295,7 +295,7 @@ public class ShipCapabilities extends MovingWorldCapabilities {
                 }
                 engines.add((TileEntityEngine) te);
             }
-        } else if (block == ArchimedesObjects.blockSeat && !ship.worldObj.isRemote) {
+        } else if ((block == ArchimedesObjects.blockSeat || ArchimedesShipMod.instance.modConfig.seats.contains(block)) && !ship.worldObj.isRemote) {
             int x1 = ship.riderDestinationX, y1 = ship.riderDestinationY, z1 = ship.riderDestinationZ;
             if (ship.frontDirection == 0) {
                 z1 -= 1;
