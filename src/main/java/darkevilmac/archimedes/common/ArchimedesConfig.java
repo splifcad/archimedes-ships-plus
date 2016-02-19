@@ -11,11 +11,11 @@ import darkevilmac.movingworld.MovingWorld;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
 import net.minecraftforge.common.config.Configuration;
 import org.apache.commons.lang3.ArrayUtils;
 import org.lwjgl.input.Keyboard;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,12 +42,14 @@ public class ArchimedesConfig {
     public Set<String> balloonAlternatives;
     private Configuration config;
 
-    public ArrayList<Block> seats;
+    public Set<String> seats;
+    public Set<String> stickyObjects;
 
     public ArchimedesConfig(Configuration configuration) {
         config = configuration;
         balloonAlternatives = new HashSet<String>();
-        seats = new ArrayList<Block>();
+        seats = new HashSet<String>();
+        stickyObjects = new HashSet<String>();
 
         FMLCommonHandler.instance().bus().register(this); // For in game config reloads.
     }
@@ -72,12 +74,6 @@ public class ArchimedesConfig {
         flyBalloonRatio = (float) config.get("mobile_chunk", "airship_balloon_ratio", 0.4D, "The part of the total amount of objects that should be balloon objects in order to make an airship.").getDouble(0.4D);
         submersibleFillRatio = (float) config.get("mobile_chunk", "submersible_fill_ratio", 0.3D, "The part of the ship that needs to not be water fillable for it to be considered submersible.").getDouble(0.9D);
 
-        String[] seatNames = (config.get("settings", "seat", new String[]{"archimedesshipsplus:seat", "end_portal_frame"}, "Blocks that are considered seats, (BlockSeat is hardcoded so this is just an example.)").getStringList());
-
-        for (String seat : seatNames) {
-            seats.add(Block.getBlockFromName(seat));
-        }
-
         if (FMLCommonHandler.instance().getSide().isClient()) {
             loadKeybindings();
         }
@@ -97,8 +93,19 @@ public class ArchimedesConfig {
     }
 
     public void postLoad() {
-        Block[] defaultBalloonBlocks = {ArchimedesObjects.blockBalloon};
+        Block[] defaultStickyBlocks = {ArchimedesObjects.blockStickyBuffer, Blocks.stone_button, Blocks.wooden_button, Blocks.lever};
+        String[] stickyBlockNames = new String[defaultStickyBlocks.length];
+        for (int i = 0; i < defaultStickyBlocks.length; i++) {
+            stickyBlockNames[i] = Block.blockRegistry.getNameForObject(defaultStickyBlocks[i]).toString();
+        }
 
+        Block[] defaultSeatBlocks = {ArchimedesObjects.blockSeat, Blocks.end_portal_frame};
+        String[] seatBlockNames = new String[defaultSeatBlocks.length];
+        for (int i = 0; i < defaultSeatBlocks.length; i++) {
+            seatBlockNames[i] = Block.blockRegistry.getNameForObject(defaultSeatBlocks[i]).toString();
+        }
+
+        Block[] defaultBalloonBlocks = {ArchimedesObjects.blockBalloon};
         String[] balloonBlockNames = new String[defaultBalloonBlocks.length];
         for (int i = 0; i < defaultBalloonBlocks.length; i++) {
             balloonBlockNames[i] = Block.blockRegistry.getNameForObject(defaultBalloonBlocks[i]).toString();
@@ -108,6 +115,12 @@ public class ArchimedesConfig {
 
         String[] balloonBlocks = config.get("mobile_chunk", "balloon_blocks", balloonBlockNames, "A list of blocks that are taken into account for ship flight capability").getStringList();
         Collections.addAll(this.balloonAlternatives, balloonBlocks);
+
+        String[] seatBlocks = (config.get("settings", "seats", seatBlockNames, "Blocks that are considered seats, BlockSeat is hard coded, you can't disable it.").getStringList());
+        Collections.addAll(this.seats, seatBlocks);
+
+        String[] stickyBlocks = config.get("settings", "stickyblocks", stickyBlockNames, "Blocks that behave like a Sticky buffer, they stop assembly when they're reached").getStringList();
+        Collections.addAll(this.stickyObjects, stickyBlocks);
 
         config.save();
     }
@@ -131,6 +144,14 @@ public class ArchimedesConfig {
 
     public boolean isBalloon(Block block) {
         return balloonAlternatives.contains(Block.blockRegistry.getNameForObject(block).toString());
+    }
+
+    public boolean isSeat(Block block) {
+        return seats.contains(Block.blockRegistry.getNameForObject(block).toString());
+    }
+
+    public boolean isSticky(Block block) {
+        return stickyObjects.contains(Block.blockRegistry.getNameForObject(block).toString());
     }
 
     @SubscribeEvent

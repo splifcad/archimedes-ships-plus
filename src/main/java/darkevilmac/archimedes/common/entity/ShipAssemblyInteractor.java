@@ -1,5 +1,6 @@
 package darkevilmac.archimedes.common.entity;
 
+import darkevilmac.archimedes.ArchimedesShipMod;
 import darkevilmac.archimedes.common.object.ArchimedesObjects;
 import darkevilmac.archimedes.common.tileentity.TileEntityHelm;
 import darkevilmac.movingworld.common.chunk.LocatedBlock;
@@ -71,7 +72,7 @@ public class ShipAssemblyInteractor extends MovingWorldAssemblyInteractor {
     public CanAssemble isBlockAllowed(World world, Block block, int x, int y, int z) {
         CanAssemble canAssemble = super.isBlockAllowed(world, block, x, y, z);
 
-        if (block == ArchimedesObjects.blockStickyBuffer)
+        if (block == ArchimedesObjects.blockStickyBuffer || ArchimedesShipMod.instance.modConfig.isSticky(block))
             canAssemble.assembleThenCancel = true;
 
         return canAssemble;

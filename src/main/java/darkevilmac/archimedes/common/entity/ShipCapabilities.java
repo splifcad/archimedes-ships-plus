@@ -275,7 +275,7 @@ public class ShipCapabilities extends MovingWorldCapabilities {
         if (block instanceof BlockAir)
             nonAirBlockCount--;
 
-        if (block == ArchimedesObjects.blockBalloon) {
+        if (block == ArchimedesObjects.blockBalloon || ArchimedesShipMod.instance.modConfig.isBalloon(block)) {
             balloonCount++;
         } else if (block == ArchimedesObjects.blockFloater) {
             floaters++;
@@ -295,7 +295,7 @@ public class ShipCapabilities extends MovingWorldCapabilities {
                 }
                 engines.add((TileEntityEngine) te);
             }
-        } else if ((block == ArchimedesObjects.blockSeat || ArchimedesShipMod.instance.modConfig.seats.contains(block)) && !ship.worldObj.isRemote) {
+        } else if ((block == ArchimedesObjects.blockSeat || ArchimedesShipMod.instance.modConfig.isSeat(block)) && !ship.worldObj.isRemote) {
             int x1 = ship.riderDestinationX, y1 = ship.riderDestinationY, z1 = ship.riderDestinationZ;
             if (ship.frontDirection == 0) {
                 z1 -= 1;

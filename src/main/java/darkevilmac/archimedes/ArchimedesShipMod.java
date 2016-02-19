@@ -85,11 +85,11 @@ public class ArchimedesShipMod {
         modConfig = new ArchimedesConfig(new Configuration(event.getSuggestedConfigurationFile()));
         modConfig.loadAndSave();
 
-        modConfig.postLoad();
     }
 
     @EventHandler
     public void initMod(FMLInitializationEvent event) {
+        modConfig.postLoad();
 
         try {
             MovingWorld.instance.metaRotations.registerMetaRotationFile("archimedesships.mrot", getClass().getResourceAsStream("/mrot/archimedesships.mrot"));
