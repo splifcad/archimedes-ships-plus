@@ -4,7 +4,9 @@ import darkevilmac.archimedes.ArchimedesShipMod;
 import darkevilmac.archimedes.common.network.TranslatedChatMessage;
 import darkevilmac.archimedes.common.tileentity.TileEntityAnchorPoint;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.block.properties.PropertyEnum;
 import net.minecraft.block.state.BlockStateContainer;
 import net.minecraft.block.state.IBlockState;
@@ -28,6 +30,7 @@ public class BlockAnchorPoint extends BlockContainer {
 
     public BlockAnchorPoint(Material material) {
         super(material);
+        this.setSoundType(SoundType.METAL);
     }
 
     public static int getMetaForAxis(EnumFacing.Axis axis) {
@@ -50,9 +53,8 @@ public class BlockAnchorPoint extends BlockContainer {
     }
 
     @Override
-    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos)
-    {
-        EnumFacing.Axis axis = (EnumFacing.Axis) source.getBlockState(pos).getValue(AXIS);
+    public AxisAlignedBB getBoundingBox(IBlockState state, IBlockAccess source, BlockPos pos) {
+        EnumFacing.Axis axis = (EnumFacing.Axis) state.getValue(AXIS);
         float f = 0.125F;
         float f1 = 0.125F;
 
@@ -80,7 +82,7 @@ public class BlockAnchorPoint extends BlockContainer {
 
     @Override
     protected BlockStateContainer createBlockState() {
-        return new BlockStateContainer(this, AXIS);
+        return new BlockStateContainer(this, new IProperty[]{AXIS});
     }
 
     @Override
